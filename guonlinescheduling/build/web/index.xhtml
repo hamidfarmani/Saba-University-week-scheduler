@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>سبا دانشگاه گلستان</title>
+        <link rel="icon" href="images/darkoobLogo.gif" type="image/gif" sizes="30x20"/>
+        <style type="text/css">
+            body{ 
+                background: url(resources/images/loginPage.jpg)no-repeat center center fixed; 
+                background-repeat: no-repeat;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                background-size: cover;
+
+
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="resources/style/elements.css" />
+        <link rel="stylesheet" type="text/javascript" href="resources/style/stb.dropdown.min.js" />
+        <link rel="stylesheet" type="text/javascript" href="resources/style/classie.js" />
+    </h:head>
+    <h:body dir="rtl">
+        <h:form>
+            <p:growl id="growl" showDetail="true" />
+
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+            <p:dialog id="statusDialog" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage name="/images/ajax-loader.gif" />
+            </p:dialog>
+
+            <p style="font-family: b yekan; font-size: 60px;text-align: center;color:rgba(255, 0, 0, 0.86);">
+
+                سامانه برنامه ریزی ارائه دروس (سبا)
+            </p>
+            <div style="width:380px;height:450px;background-color:white; opacity: 0.8;position: absolute;">
+
+                <table>
+                    <tr>
+                        <td style="text-align: center;">
+                            <img style="text-align: center" src="assets/img/s1.png"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <h:inputText id="username" value="#{loginGUControl.user}" class="InputField"></h:inputText>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <br></br><br></br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:inputSecret id="password" value="#{loginGUControl.pass}" class="InputField"></h:inputSecret>
+                        </td>
+                    </tr>
+                    <br></br><br></br>
+                    <tr>
+                        <td>
+                            <p:commandButton class="btn icon-enter" action="#{loginGUControl.validateUserPass()}" update="growl" value="ورود به سامانه"></p:commandButton>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </h:form>
+
+
+    </h:body>
+</html>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>اضافه کردن ورودی جدید برای تمام گروه ها</title>
+        <link rel="stylesheet" type="text/css" href="resources/style/elements.css" />
+    </h:head>
+    <h:body dir="rtl">
+        <h:form>
+            <p:growl id="growl" showDetail="true"/>
+            <table>
+                <tr>
+                    <td>
+                        سال ورودی:
+                    </td>
+                    <td>
+                        <p:inputText  type="number"  id="enterYear" class="InputField" converterMessage="سال ورودی را به عدد وارد نمایید." value="#{collegianControl.collegian.enteryear}"/><br/>
+                        <p:watermark for="enterYear" value="1392" />  
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <p:commandButton class="btn icon-cart" value="ثبت" action="#{collegianControl.insertAllCollegian()}" update="growl"/>
+                    </td>
+                </tr>
+
+            </table>
+        </h:form>
+    </h:body>
+</html>
+

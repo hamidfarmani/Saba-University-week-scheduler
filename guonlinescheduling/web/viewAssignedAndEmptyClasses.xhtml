@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>برنامه هفتگی کلاس ها</title>
+        <link rel="stylesheet" type="text/css" href="resources/style/elements.css" />
+    </h:head>
+    <h:body dir="rtl">
+        <h:form>
+            <p:outputPanel style="height: 500px;overflow: auto;display: block;">
+                <table style="border-color: transparent">
+                    <tr>
+                        <td>
+                            نام کلاس: 
+                        </td>
+
+                        <td>
+                            <h:selectOneMenu value="#{roomControl.roomID}" >
+                                <p:ajax listener="#{roomControl.onRoomChange}" update="schtable1 schtable2" />
+                                <f:selectItems value="#{roomControl.allRoomList}"/>
+                            </h:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputText value="برنامه کلاس های تخصیص یافته" style="font-family: b yekan;font-size: 14px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="20">
+                            <h:panelGrid columns="6" id="schtable1" border="1">
+                                <c:forEach var="row" items="#{roomControl.assignedClass}">
+                                    <c:forEach var="value" items="#{row}">
+                                        #{value}
+                                    </c:forEach>
+                                </c:forEach>
+                            </h:panelGrid>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <h:outputText value="برنامه کلاس های پر شده" style="font-family: b yekan;font-size: 14px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="20">
+                            <h:panelGrid columns="6" id="schtable2" border="1">
+                                <c:forEach var="row" items="#{roomControl.emptyClass}">
+                                    <c:forEach var="value" items="#{row}">
+                                        #{value}
+                                    </c:forEach>
+                                </c:forEach>
+                            </h:panelGrid>
+
+                        </td>
+                    </tr>
+                </table>
+            </p:outputPanel>
+        </h:form>
+    </h:body>
+</html>
+

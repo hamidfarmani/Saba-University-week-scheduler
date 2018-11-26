@@ -1,0 +1,878 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+
+        <title>سبا دانشگاه گلستان</title>
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="assets/js/chart.js"></script>
+        <!--        <script src="assets/js/modernizr.custom.63321.js"></script>-->
+        <script type="text/javascript" src="script.js"></script>
+        <link rel="stylesheet" type="text/javascript" href="resources/style/js/script.js" />
+        <link rel="stylesheet" type="text/javascript" href="resources/style/js/jquery.js" />
+        <link rel="stylesheet" type="text/javascript" href="resources/style/js/modernizr.custom.js" />
+        <link rel="stylesheet" type="text/javascript" href="resources/style/js/cbpFWTabs.js" />
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="assets/lib/bootstrap/css/bootstrap.css"/>
+
+        <link rel="stylesheet" href="assets/css/element.css"/>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="assets/lib/font-awesome/css/font-awesome.css"/>
+
+        <link rel="stylesheet" type="text/css" href="assets/css/shortcut.css" />
+
+        <!-- Metis core stylesheet -->
+        <link rel="stylesheet" href="assets/css/main.css"/>
+
+        <!-- metisMenu stylesheet -->
+
+
+        <!-- animate.css stylesheet -->
+
+        <style type="text/css">
+            body{ 
+                background: url(resources/images/bg.jpg)no-repeat center center fixed; 
+                background-repeat: no-repeat;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                background-size: cover;
+            }
+        </style>
+
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!--For Development Only. Not required -->
+        <script>
+                    less = {
+                    env: "development",
+                            relativeUrls: false,
+                            rootpath: "/assets/"
+                    };</script>
+
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.js"></script>-->
+
+    </h:head>
+    <h:body class="  ">
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" ></p:ajaxStatus>
+        <p:dialog id="statusDialog" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:graphicImage name="/images/ajax-loader.gif" />
+        </p:dialog>
+
+
+        <h:form>
+
+        </h:form>
+
+
+        <div class="bg-dark dk" id="wrap">
+            <div id="top">
+
+                <header class="head">
+                    <div class="topnav">
+                        <div class="btn-group">
+                            <a data-placement="bottom" data-original-title="Fullscreen" data-toggle="tooltip"
+                               class="btn btn-default btn-sm" id="toggleFullScreen">
+                                <i class="glyphicon glyphicon-fullscreen"></i>
+                            </a>
+                        </div>
+                        <a data-placement="bottom" data-original-title="باز/بسته کردن منو" data-toggle="tooltip"
+                           class="btn btn-primary btn-sm toggle-left" id="menu-toggle">
+                            <img src="assets/img/1478173798_menu-alt.png"/>
+                        </a>
+
+
+
+                    </div>
+
+                    <!-- /.search-bar -->
+                    <div class="main-bar"> 
+                        <h3>
+                            <p:outputLabel dir="rtl" style="font-family: b yekan;" value="سامانه برنامه ریزی ارائه دروس (سبا)" />
+
+                            <img src="assets/img/s1.png"/>
+                        </h3>
+                    </div>
+
+                    <!-- /.main-bar -->
+                    <div class="bts">
+
+                        <h:form>
+                            <ul>
+
+                                <li>
+                                    <i class="fa fa-plus-square fa-3x" aria-hidden="true"></i>
+
+                                    <ul>
+                                        <li>
+                                            <p:commandLink value="استاد جدید" actionListener="#{professorControl.viewNewProfessorDialog()}">
+                                                <p:ajax event="dialogReturn" update=":#{p:component('professormanagementdatatable')}"/>
+                                            </p:commandLink>
+                                        </li>
+                                        <li>
+                                            <p:commandLink actionListener="#{weekScheduleControl.viewNewWeekScheduleDialog()}" value="برنامه هفتگی جدید">
+                                                <p:ajax event="dialogReturn" update=":#{p:component('weekschedulemanagementdatatable')}" />
+                                            </p:commandLink>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </h:form>
+
+                    </div>
+
+
+                </header>
+                <!-- /.head -->
+            </div>
+            <!-- /#top -->
+            <div id="left">
+                <div class="media user-media bg-dark dker">
+                    <div class="user-media-toggleHover">
+                        <span class="fa fa-user"></span>
+                    </div>
+
+                </div>
+                <!-- #menu -->
+                <ul id="menu" class="bg-blue dker tab" style="text-align:right;">
+                    <li class="nav-header">
+                        <h:form>
+                            <h:outputText style="font-family: b roya;font-size: 12px;color: #ccccff;" dir="rtl" value="#{loginGUControl.userObj.firstname.concat(' '.concat(loginGUControl.userObj.lastname))}، خوش آمدید."/>
+                        </h:form>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" id="defaultOpen" class="tablinks" onclick="openCity(event, 'professormanagement')">
+                            <img style="float:left" height="30px" src="resources/آیکون/مدیریت استاد.png"></img> 
+                            <span class="link-title">مدیریت اساتید</span></a>
+                    </li>
+                    <c:if test="#{loginGUControl.userObj.roleid==2}">
+                        <br></br>
+                        <br></br>
+                        <br></br>
+
+                        <li>
+                            <a  href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'educationgroupmanagement')"><img style="float:left" height="30px" src="resources/آیکون/مدیریت گروه های آموزشی.png"></img> 
+                                <span  class="link-title">مدیریت گروه های آموزشی</span>
+                            </a>
+                        </li>
+
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <li>
+                            <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'lessonmanagement')"><img style="float:left" height="30px" src="resources/آیکون/مدیریت درس ها.png"></img> 
+                                <span class="link-title">مدیریت درس ها</span>
+                            </a>
+                        </li>
+                    </c:if>
+                    <li>
+                        <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'collegianmanagement')"><img style="float:left" height="30px" src="resources/آیکون/مدیریت دانشجویان.png"></img> 
+                            <span class="link-title">مدیریت دانشجویان</span></a>
+                    </li>
+                    <c:if test="#{loginGUControl.userObj.roleid==2}">
+                        <li>
+                            <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'roommanagement')"><img style="float:left" height="30px" src="resources/آیکون/مدیریت کلاس.png"></img> 
+                                <span class="link-title">مدیریت کلاس ها</span></a>
+                        </li>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <li>
+                            <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'roomgroupmanagement')"><img style="float:left" height="30px" src="resources/آیکون/مدیریت کلاسهای تخصیص یافته.png"></img> 
+                                <span class="link-title">تخصیص کلاس ها</span></a>
+                        </li>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                    </c:if>
+                    <li class="">
+                        <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'weekschedulemanagement')"> <img style="float:left" height="30px" src="resources/آیکون/مدیریت برنامه کلاسی.png"></img> 
+                            <span class="link-title">مدیریت برنامه کلاسی</span>
+                        </a>
+                    </li>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <li class="">
+                        <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'viewschedulesmanagement')"><img style="float:left" height="30px" src="resources/آیکون/برنامه هفتگی.png"></img> 
+                            <span class="link-title">برنامه هفتگی</span>
+                        </a>
+                    </li>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+
+                    <h:form>
+
+                        <li class="">
+                            <a href="javascript:void(0)" class="tablinks">
+                                <img style="float:left;margin-left: 16px" height="30px" src="resources/آیکون/خروج.png"></img> 
+                                <span class="link-title">
+                                    <p:commandLink action="#{professorControl.logout()}" value="خروج از سامانه" />
+                                </span>
+                            </a>
+                        </li>
+                    </h:form>
+                </ul>
+                <!-- /#menu -->
+            </div>
+            <!-- /#left -->
+            <div id="content">
+                <div class="outer">
+                    <div class="inner bg-light lter">
+                        <div class="col-lg-12">
+
+
+
+                        </div>
+
+                        <div id="professormanagement" class="tabcontent">
+                            <span onclick="this.parentElement.style.display = 'none'" class="topright">x</span>
+                            <h:form id="professormanagementform">
+                                <p:commandButton class="btn icon-cart" actionListener="#{professorControl.viewNewProfessorDialog()}" value="استاد جدید">
+                                    <p:ajax event="dialogReturn" update="professormanagementdatatable"/>
+                                </p:commandButton>
+
+                                <br></br><br></br>
+                                <p:dataTable id="professormanagementdatatable" filterEvent="enter" 
+                                             value="#{professorControl.professorList}" var="professors" 
+                                             dir="rtl" emptyMessage="موردی با این مشخصات یافت نشد." paginator="true"
+                                             paginatorTemplate="{PageLinks} {RowsPerPageDropdown} {CurrentPageReport}"
+                                             rowsPerPageTemplate="10,30,50,100" rows="10"
+                                             currentPageReportTemplate="صفحه {currentPage} از {totalPages}">
+                                    <p:column filterBy="#{professors.id}" filterMatchMode="contains">
+                                        <f:facet name="header">شناسه</f:facet>
+                                            #{professors.id}
+                                    </p:column>
+                                    <p:column filterBy="#{professors.firstname}" filterMatchMode="contains">
+                                        <f:facet name="header">نام</f:facet>
+                                            #{professors.firstname}
+                                    </p:column>
+                                    <p:column filterBy="#{professors.lastname}" filterMatchMode="contains">
+                                        <f:facet name="header">نام خانوادگی</f:facet>
+                                            #{professors.lastname}
+                                    </p:column>
+                                    <p:column filterBy="#{professors.teducationgroup.name}" filterMatchMode="contains">
+                                        <f:facet name="header">نام گروه</f:facet>
+                                            #{professors.teducationgroup.name}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">عملیات</f:facet>
+                                        <p:menuButton value="تنظیمات" rendered="#{loginGUControl.userObj.roleid==2 or professors.teducationgroup.id==loginGUControl.userObj.teducationgroup.id}">
+                                            <p:menuitem value="ویرایش مشخصات عمومی"
+                                                        actionListener="#{professorControl.viewEditProfessorDialog(professors)}"/>
+                                            <p:menuitem value="مشخص کردن دروس استاد"
+                                                        actionListener="#{professorControl.viewAssignLessonToProfessorDialog(professors)}"/>
+                                            <p:menuitem value="تغییر رمز عبور"
+                                                        actionListener="#{professorControl.viewChangePassDialog(professors)}"/>
+
+                                            <p:menuitem value="حذف"
+                                                        action="#{professorControl.removeProfessor(professors)}"
+                                                        onclick="if (!confirm('آیا از حذف استاد اطمینان دارید؟'))
+                                                                            return false;"
+                                                        update="professormanagementdatatable"/>
+                                        </p:menuButton>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+                        <div id="educationgroupmanagement" class="tabcontent">
+                            <span onclick="this.parentElement.style.display = 'none'" class="topright">x</span>
+                            <p:growl id="educationGroupGrowl" autoUpdate="true" showDetail="true"/>
+                            <h:form id="educationgroupmanagementform">
+                                <p:commandButton class="btn icon-cart" actionListener="#{educationGroupControl.viewNewEducationGroupDialog()}" value="گروه آموزشی جدید">
+                                    <p:ajax event="dialogReturn" update="educationgroupmanagementdatatable :educationGroupGrowl"/>
+                                </p:commandButton>
+                                <br></br><br></br>
+
+                                <p:dataTable filterEvent="enter" id="educationgroupmanagementdatatable" 
+                                             value="#{educationGroupControl.educationGroupList}" 
+                                             var="educationGroups" dir="rtl" 
+                                             emptyMessage="موردی با این مشخصات یافت نشد." 
+                                             style="border: 1px solid black;" paginator="true"
+                                             paginatorTemplate="{PageLinks} {RowsPerPageDropdown} {CurrentPageReport}"
+                                             rowsPerPageTemplate="10,30,50,100" rows="10"
+                                             currentPageReportTemplate="صفحه {currentPage} از {totalPages}">
+                                    <p:column filterBy="#{educationGroups.symbol}" filterMatchMode="contains">
+                                        <f:facet name="header">نشانه</f:facet>
+                                            #{educationGroups.symbol}
+                                    </p:column>
+                                    <p:column filterBy="#{educationGroups.name}" filterMatchMode="contains">
+                                        <f:facet name="header">نام</f:facet>
+                                            #{educationGroups.name}
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">عملیات</f:facet>
+                                        <p:commandButton icon="fa fa-pencil" title="ویرایش"
+                                                         actionListener="#{educationGroupControl.viewEditEducationGroupDialog(educationGroups)}" >
+                                            <p:ajax event="dialogReturn" update="educationgroupmanagementdatatable"/>
+                                        </p:commandButton>
+                                        <p:commandButton icon="fa fa-trash" title="حذف"
+                                                         action="#{educationGroupControl.removeEducationGroup(educationGroups)}"
+                                                         onclick="if (!confirm('آیا از حذف گروه آموزشی اطمینان دارید؟'))
+                                                                             return false;"
+                                                         update="educationgroupmanagementdatatable"/> 
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </h:form>
+                        </div>
+                        <div id="lessonmanagement" class="tabcontent">
+                            <span onclick="this.parentElement.style.display = 'none'" class="topright">x</span>
+                            <p:growl id="lessonGrowl" autoUpdate="true" showDetail="true"/>
+                            <h:form id="lessonmanagementform">
+                                <p:commandButton class="btn icon-cart" actionListener="#{lessonControl.viewNewLessonDialog()}" value="درس جدید">
+                                    <p:ajax event="dialogReturn" update="lessonmanagementdatatable :lessonGrowl"/>
+                                </p:commandButton>
+                                <br></br><br></br>
+
+                                <p:dataTable filterEvent="enter" id="lessonmanagementdatatable" value="#{lessonControl.lessonList}" 
+                                             var="lessons" dir="rtl" emptyMessage="موردی با این مشخصات یافت نشد." 
+                                             style="border: 1px solid black;"  paginator="true"
+                                             paginatorTemplate="{PageLinks} {RowsPerPageDropdown} {CurrentPageReport}"
+                                             rowsPerPageTemplate="10,30,50,100" rows="10"
+                                             currentPageReportTemplate="صفحه {currentPage} از {totalPages}">
+                                    <p:column filterBy="#{lessons.symbol}" filterMatchMode="contains" >
+                                        <f:facet name="header">کد درس</f:facet>
+                                            #{lessons.symbol}
+                                    </p:column>
+                                    <p:column filterBy="#{lessons.name}" filterMatchMode="contains">
+                                        <f:facet name="header">نام</f:facet>
+                                            #{lessons.name}
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">عملیات</f:facet>
+                                        <p:commandButton icon="fa fa-pencil" title="ویرایش"
+                                                         actionListener="#{lessonControl.viewEditLessonDialog(lessons)}" >
+                                            <p:ajax event="dialogReturn" update="lessonmanagementdatatable"/>
+                                        </p:commandButton>
+                                        <p:commandButton icon="fa fa-trash" title="حذف"
+                                                         action="#{lessonControl.removeLesson(lessons)}"
+                                                         onclick="if (!confirm('آیا از حذف درس اطمینان دارید؟'))
+                                                                             return false;"
+                                                         update="lessonmanagementdatatable"/> 
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </h:form>
+                        </div>
+
+                        <div id="collegianmanagement" class="tabcontent">
+                            <span onclick="this.parentElement.style.display = 'none'" class="topright">x</span>
+                            <h:form>
+                                <c:if test="#{loginGUControl.userObj.roleid==2}">
+                                    <p:commandButton class="btn icon-cart" actionListener="#{collegianControl.viewNewAllCollegianDialog()}" value="اضافه کردن ورودی کل گروه ها">
+                                        <p:ajax event="dialogReturn" update="collegianmanagementdatatable"/>
+                                    </p:commandButton>
+                                </c:if>
+                                <p:commandButton class="btn icon-cart" actionListener="#{collegianControl.viewNewCollegianDialog()}" value="دانشجویان جدید">
+                                    <p:ajax event="dialogReturn" update="collegianmanagementdatatable"/>
+                                </p:commandButton>
+                                <br></br><br></br>
+                                <p:growl id="growl" showDetail="true"/>
+                                <p:dataTable id="collegianmanagementdatatable" filterEvent="enter" 
+                                             value="#{collegianControl.collegianList}" var="collegians" dir="rtl" 
+                                             emptyMessage="موردی با این مشخصات یافت نشد."
+                                             widgetVar="colldatatable" paginator="true"
+                                             paginatorTemplate="{PageLinks} {RowsPerPageDropdown} {CurrentPageReport}"
+                                             rowsPerPageTemplate="10,30,50,100" rows="10"
+                                             currentPageReportTemplate="صفحه {currentPage} از {totalPages}">
+                                    <p:column filterBy="#{collegians.id}" filterMatchMode="contains">
+                                        <f:facet name="header">شناسه</f:facet>
+                                            #{collegians.id}
+                                    </p:column>
+
+                                    <p:column filterBy="#{collegians.name}" filterMatchMode="contains">
+                                        <f:facet name="header">نام</f:facet>
+                                            #{collegians.name}
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">عملیات</f:facet>
+                                        <p:commandButton icon="fa fa-pencil" title="ویرایش"
+                                                         actionListener="#{collegianControl.viewEditCollegianDialog(collegians)}">
+                                            <p:ajax event="dialogReturn" update="collegianmanagementdatatable"/>
+                                        </p:commandButton>
+                                        <p:commandButton icon="fa fa-trash" title="حذف"
+                                                         action="#{collegianControl.removeCollegian(collegians)}"
+                                                         onclick="if (!confirm('آیا از حذف گروه دانشجویان اطمینان دارید؟'))
+                                                                             return false;"
+                                                         update="collegianmanagementdatatable"/> 
+                                    </p:column>
+
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+
+                        <div id="roommanagement" class="tabcontent">
+                            <span onclick="this.parentElement.style.display = 'none'" class="topright">x</span>
+                            <h:form>
+                                <p:commandButton class="btn icon-cart" actionListener="#{roomControl.viewNewRoomDialog()}" value="کلاس جدید">
+                                    <p:ajax event="dialogReturn" update="roommanagementdatatable"/>
+                                </p:commandButton>
+                                <br></br><br></br>
+                                <p:growl id="growl" showDetail="true"/>
+                                <p:dataTable id="roommanagementdatatable" filterEvent="enter" 
+                                             value="#{roomControl.roomList}" var="rooms" dir="rtl" 
+                                             emptyMessage="موردی با این مشخصات یافت نشد." paginator="true"
+                                             paginatorTemplate="{PageLinks} {RowsPerPageDropdown} {CurrentPageReport}"
+                                             rowsPerPageTemplate="10,30,50,100" rows="10"
+                                             currentPageReportTemplate="صفحه {currentPage} از {totalPages}">
+                                    <p:column filterBy="#{rooms.name}" filterMatchMode="contains">
+                                        <f:facet name="header">نام کلاس</f:facet>
+                                            #{rooms.name}
+                                    </p:column>
+
+                                    <p:column filterBy="#{rooms.capacity}" filterMatchMode="contains">
+                                        <f:facet name="header">ظرفیت کلاس</f:facet>
+                                            #{rooms.capacity}
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">عملیات</f:facet>
+                                        <p:commandButton icon="fa fa-pencil" title="ویرایش"
+                                                         actionListener="#{roomControl.viewEditRoomDialog(rooms)}"
+                                                         update="roommanagementdatatable">
+                                            <p:ajax event="dialogReturn" update="roommanagementdatatable"/>
+                                        </p:commandButton>
+                                        <p:commandButton icon="fa fa-trash" title="حذف"
+                                                         action="#{roomControl.removeRoom(rooms)}"
+                                                         onclick="if (!confirm('آیا از حذف کلاس اطمینان دارید؟'))
+                                                                             return false;"
+                                                         update="roommanagementdatatable"/>
+
+                                    </p:column>
+
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+
+                        <div id="roomgroupmanagement" class="tabcontent">
+                            <span onclick="this.parentElement.style.display = 'none'" class="topright">x</span>
+                            <h:form>
+                                <p:commandButton class="btn icon-cart" value="حذف کلاس های تخصیص یافته"
+                                                 action="#{roomControl.removeAllRoomGroup()}"
+                                                 onclick="if (!confirm('آیا از حذف تمامی کلاس های تخصیص یافته اطمینان دارید؟'))
+                                                                     return false;"
+                                                 update="roomgroupmanagementdatatable"/>
+                                <p:commandButton class="btn icon-cart" value="برنامه هفتگی کلاس ها" actionListener="#{roomControl.viewClassSchedule()}"/>
+                                <p:commandButton class="btn icon-cart" actionListener="#{roomControl.viewAssignRoomDialog()}" value="تخصیص کلاس به گروه ها">
+                                    <p:ajax event="dialogReturn" update="roomgroupmanagementdatatable"/>
+                                </p:commandButton>
+
+                                <br></br><br></br>
+                                <p:growl id="growl" showDetail="true"/>
+                                <p:dataTable id="roomgroupmanagementdatatable" filterEvent="enter" 
+                                             value="#{roomControl.roomGroupList}" var="roomGroups" dir="rtl" 
+                                             emptyMessage="موردی با این مشخصات یافت نشد." paginator="true"
+                                             paginatorTemplate="{PageLinks} {RowsPerPageDropdown} {CurrentPageReport}"
+                                             rowsPerPageTemplate="10,30,50,100" rows="10"
+                                             currentPageReportTemplate="صفحه {currentPage} از {totalPages}">
+                                    <p:column filterBy="#{roomGroups.troom.name}" filterMatchMode="contains">
+                                        <f:facet name="header">نام کلاس</f:facet>
+                                            #{roomGroups.troom.name}
+                                    </p:column>
+
+                                    <p:column filterBy="#{roomGroups.timeslot}" filterMatchMode="contains">
+                                        <f:facet name="header">شروع کلاس</f:facet>
+                                            #{roomGroups.timeslot}
+                                    </p:column>
+                                    <p:column filterBy="#{roomGroups.daynum}" sortBy="#{roomGroups.daynum}" filterMatchMode="contains">
+
+                                        <f:facet name="header">روز</f:facet>
+                                        <f:facet name="filter">
+                                            <h:selectOneMenu onchange="PF('roomgroupmanagementdatatable').filter()">
+                                                <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
+                                                <f:selectItem itemLabel="شنبه" itemValue="0"/>
+                                                <f:selectItem itemLabel="یکشنبه" itemValue="1"/>
+                                                <f:selectItem itemLabel="دوشنبه" itemValue="2"/>
+                                                <f:selectItem itemLabel="سه شنبه" itemValue="3"/>
+                                                <f:selectItem itemLabel="چهارشنبه" itemValue="4"/>
+                                                <f:selectItem itemLabel="پنجشنبه" itemValue="5"/>
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                        <h:outputText rendered="#{roomGroups.daynum==0}" value="شنبه"/>
+                                        <h:outputText rendered="#{roomGroups.daynum==1}" value="یکشنبه"/>
+                                        <h:outputText rendered="#{roomGroups.daynum==2}" value="دوشنبه"/>
+                                        <h:outputText rendered="#{roomGroups.daynum==3}" value="سه شنبه"/>
+                                        <h:outputText rendered="#{roomGroups.daynum==4}" value="چهارشنبه"/>
+                                        <h:outputText rendered="#{roomGroups.daynum==5}" value="پنجشنبه"/>
+                                    </p:column>
+                                    <p:column filterBy="#{roomGroups.teducationgroup.name}" filterMatchMode="contains">
+                                        <f:facet name="header">گروه</f:facet>
+                                            #{roomGroups.teducationgroup.name}
+                                    </p:column>
+
+                                    <p:column>
+                                        <f:facet name="header">عملیات</f:facet>
+
+                                        <p:commandButton icon="fa fa-trash" title="حذف"
+                                                         action="#{roomControl.removeRoomGroup(roomGroups)}"
+                                                         onclick="if (!confirm('آیا از حذف کلاس تخصیص یافته اطمینان دارید؟'))
+                                                                             return false;"
+                                                         update="roomgroupmanagementdatatable"/>
+
+                                    </p:column>
+
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+
+                        <div id="weekschedulemanagement" class="tabcontent">
+                            <span onclick="this.parentElement.style.display = 'none'" class="topright">x</span>
+                            <h:form>
+                                <p:commandButton class="btn icon-cart" actionListener="#{weekScheduleControl.viewNewWeekScheduleDialog()}" value="برنامه هفتگی جدید">
+                                    <p:ajax event="dialogReturn" update="weekschedulemanagementdatatable"/>
+                                </p:commandButton>
+                                <br></br><br></br>
+                                <p:growl id="growl" showDetail="true"/>
+                                <p:selectBooleanCheckbox itemLabel="حذف" value="#{weekScheduleControl.showDeleted}"/>
+                                <p:selectBooleanCheckbox itemLabel="ویرایش" value="#{weekScheduleControl.showEdited}"/>
+                                <p:selectBooleanCheckbox itemLabel="اضافه" value="#{weekScheduleControl.showCreated}"/>
+                                <p:calendar pattern="yyyy-MM-dd" value="#{weekScheduleControl.selectedDate}"/>
+                                <p:commandButton value="جستجو" actionListener="#{weekScheduleControl.searchDate()}" update=":#{p:component('weekschedulemanagementdatatable')}"/>
+                                <p:dataTable id="weekschedulemanagementdatatable" filterEvent="enter" 
+                                             value="#{weekScheduleControl.ALLWeekScheduleList}" 
+                                             var="weekschedules" dir="rtl" emptyMessage="موردی با این مشخصات یافت نشد." scrollHeight="300"
+                                             widgetVar="weekschtable" paginator="true"
+                                             paginatorTemplate="{PageLinks} {RowsPerPageDropdown} {CurrentPageReport}"
+                                             rowsPerPageTemplate="10,30,50,100" rows="10"
+                                             currentPageReportTemplate="صفحه {currentPage} از {totalPages}">
+                                    <p:column filterBy="#{weekschedules.tcollegian.name}" sortBy="#{weekschedules.tcollegian.name}" filterMatchMode="contains">
+                                        <f:facet name="header">گروه دانشجویان</f:facet>
+                                            #{weekschedules.tcollegian.name}
+                                    </p:column>
+                                    <p:column filterBy="#{weekschedules.troom.name}" sortBy="#{weekschedules.troom.name}" filterMatchMode="contains">
+                                        <f:facet name="header">کلاس</f:facet>
+                                            #{weekschedules.troom.name}
+                                    </p:column>
+                                    <p:column filterBy="#{weekschedules.tprofLesson.tlesson.name}" sortBy="#{weekschedules.tprofLesson.tlesson.name}" filterMatchMode="contains">
+                                        <f:facet name="header">درس</f:facet>
+                                            #{weekschedules.tprofLesson.tlesson.name}
+                                    </p:column>
+                                    <p:column filterBy="#{weekschedules.tprofLesson.tprofessor.lastname}" sortBy="#{weekschedules.tprofLesson.tprofessor.lastname}" filterMatchMode="contains">
+                                        <f:facet name="header">استاد</f:facet>
+                                            #{weekschedules.tprofLesson.tprofessor.lastname}
+                                    </p:column>
+                                    <p:column filterBy="#{weekschedules.daynum}" sortBy="#{weekschedules.daynum}" filterMatchMode="contains">
+
+                                        <f:facet name="header">روز</f:facet>
+                                        <f:facet name="filter">
+                                            <h:selectOneMenu onchange="PF('weekschtable').filter()">
+                                                <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
+                                                <f:selectItem itemLabel="شنبه" itemValue="0"/>
+                                                <f:selectItem itemLabel="یکشنبه" itemValue="1"/>
+                                                <f:selectItem itemLabel="دوشنبه" itemValue="2"/>
+                                                <f:selectItem itemLabel="سه شنبه" itemValue="3"/>
+                                                <f:selectItem itemLabel="چهارشنبه" itemValue="4"/>
+                                                <f:selectItem itemLabel="پنجشنبه" itemValue="5"/>
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                        <h:outputText rendered="#{weekschedules.daynum==0}" value="شنبه"/>
+                                        <h:outputText rendered="#{weekschedules.daynum==1}" value="یکشنبه"/>
+                                        <h:outputText rendered="#{weekschedules.daynum==2}" value="دوشنبه"/>
+                                        <h:outputText rendered="#{weekschedules.daynum==3}" value="سه شنبه"/>
+                                        <h:outputText rendered="#{weekschedules.daynum==4}" value="چهارشنبه"/>
+                                        <h:outputText rendered="#{weekschedules.daynum==5}" value="پنجشنبه"/>
+                                    </p:column>
+                                    <p:column filterBy="#{weekschedules.weektype}"  filterMatchMode="contains" width="80" filterStyle="width: 60px;">
+
+                                        <f:facet name="header">نوع هفته</f:facet>
+                                        <f:facet name="filter">
+                                            <h:selectOneMenu onchange="PF('weekschtable').filter()">
+                                                <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
+                                                <f:selectItem itemLabel="زوج" itemValue="E"/>
+                                                <f:selectItem itemLabel="فرد" itemValue="O"/>
+                                                <f:selectItem itemLabel="ثابت" itemValue="B"/>
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                        <h:outputText rendered="#{weekschedules.weektype eq 'E'}" value="زوج"/>
+                                        <h:outputText rendered="#{weekschedules.weektype eq 'O'}" value="فرد"/>
+                                        <h:outputText rendered="#{weekschedules.weektype eq 'B'}" value="ثابت"/>
+                                    </p:column>
+                                    <p:column filterBy="#{weekschedules.timeslotnum}" filterMatchMode="contains" width="50" filterStyle="width: 30px;">
+                                        <f:facet name="header">ساعت</f:facet>
+                                            #{weekschedules.timeslotnum}
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">وضعیت</f:facet>
+                                        <h:outputText rendered="#{weekschedules.creationdate != null and weekschedules.editedin == null and weekschedules.dto == null}" value="اضافه"/>
+                                        <h:outputText rendered="#{weekschedules.editedin != null and weekschedules.dto == null}" value="ویرایش"/>
+                                        <h:outputText rendered="#{weekschedules.dto != null}" value="حذف"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">تاریخ</f:facet>
+                                        <h:outputText rendered="#{weekschedules.creationdate != null and weekschedules.editedin == null and weekschedules.dto == null}" value="#{weekschedules.creationdate}"/>
+                                        <h:outputText rendered="#{weekschedules.editedin != null and weekschedules.dto == null}" value="#{weekschedules.editedin}"/>
+                                        <h:outputText rendered="#{weekschedules.dto != null}" value="#{weekschedules.dto}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">عملیات</f:facet>
+
+                                        <p:commandButton rendered="#{weekschedules.dto == null and (loginGUControl.userObj.roleid==2 or weekschedules.tcollegian.teducationgroup.id==loginGUControl.userObj.teducationgroup.id)}"  icon="fa fa-pencil" title="ویرایش"
+                                                         actionListener="#{weekScheduleControl.viewEditWeekScheduleDialog(weekschedules)}" >
+                                            <p:ajax event="dialogReturn" update="weekschedulemanagementdatatable"/>
+                                        </p:commandButton>
+
+                                        <p:commandButton rendered="#{weekschedules.dto == null and (loginGUControl.userObj.roleid==2 or weekschedules.tcollegian.teducationgroup.id==loginGUControl.userObj.teducationgroup.id)}" icon="fa fa-trash" title="حذف"
+                                                         action="#{weekScheduleControl.removeWeekSchedule(weekschedules)}"
+                                                         onclick="if (!confirm('آیا از حذف برنامه کلاسی اطمینان دارید؟'))
+                                                                             return false;"
+                                                         update="weekschedulemanagementdatatable"/>
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </h:form>
+                        </div>
+                        <div id="viewschedulesmanagement" class="tabcontent">
+                            <span onclick="this.parentElement.style.display = 'none'" class="topright">x</span>
+                            <h:form dir="rtl">
+                                <table style="border-color: transparent">
+                                    <tr>
+                                        <td>
+                                            جستجو بر اساس:
+                                        </td>
+                                        <td colspan="10">
+
+                                            <p:selectOneRadio id="console1" value="#{weekScheduleControl.typeOfScheduleList}">
+                                                <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable1')} :#{p:component('byprof')} :#{p:component('byroom')} :#{p:component('bycollegian')}"/>
+                                                <f:selectItem itemLabel="استاد" itemValue="P" />
+                                                <f:selectItem itemLabel="کلاس" itemValue="R" />
+                                                <f:selectItem itemLabel="دانشجو" itemValue="C" />
+                                            </p:selectOneRadio>
+                                        </td>
+                                        <td>
+                                            <p:commandButton value="ذخیره فایل" actionListener="#{weekScheduleControl.writeToCSV()}" update="pathlable"/>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+
+                                        <td>
+                                            استاد:  
+                                        </td>
+                                        <td>
+
+                                            <h:selectOneMenu id="byprof" value="#{weekScheduleControl.searchProfessorID}" 
+                                                             disabled="#{weekScheduleControl.typeOfScheduleList=='R' or weekScheduleControl.typeOfScheduleList=='C'}" 
+                                                             style="font-family: b roya;    font-size: 14px;" >
+                                                <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable1')} :#{p:component('examsdatatable')}" />
+                                                <f:selectItems value="#{professorControl.allProfessorList}"/>
+                                            </h:selectOneMenu>                                                                                        
+                                        </td>
+
+                                        <td>
+                                            کلاس:  
+                                        </td>
+                                        <td>
+
+                                            <h:selectOneMenu id="byroom" value="#{weekScheduleControl.searchRoomID}" 
+                                                             disabled="#{weekScheduleControl.typeOfScheduleList=='P' or weekScheduleControl.typeOfScheduleList=='C'}" 
+                                                             style="font-family: b roya;    font-size: 14px;" >
+                                                <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable1')} :#{p:component('examsdatatable')}" />
+                                                <f:selectItems value="#{roomControl.allRoomList}"/>
+                                            </h:selectOneMenu>                                                                                        
+                                        </td>
+
+                                        <td>
+                                            دانشجو:  
+                                        </td>
+                                        <td>
+
+                                            <h:selectOneMenu id="bycollegian" value="#{weekScheduleControl.searchColegianID}" disabled="#{weekScheduleControl.typeOfScheduleList=='P' or weekScheduleControl.typeOfScheduleList=='R'}" 
+                                                             style="font-family: b roya;    font-size: 14px;" >
+                                                <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable1')} :#{p:component('examsdatatable')} " />
+                                                <f:selectItems value="#{collegianControl.allCollegianList}"/>
+                                            </h:selectOneMenu>                                                                                        
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="20">
+                                            <h:panelGrid columns="6" id="schtable1" border="1">
+                                                <c:forEach var="row" items="#{weekScheduleControl.schedule}">
+                                                    <c:forEach var="value" items="#{row}">
+                                                        <h:outputText value="#{value}" style="white-space: pre-wrap"/>
+                                                    </c:forEach>
+                                                </c:forEach>
+                                            </h:panelGrid>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="20">
+                                            <p:dataTable id="examsdatatable" filterEvent="enter" 
+                                                         value="#{weekScheduleControl.examsList}" var="exams" dir="rtl" 
+                                                         emptyMessage="موردی با این مشخصات یافت نشد."
+                                                         widgetVar="examdatatable">
+                                                <p:column>
+                                                    <f:facet name="header">نام درس</f:facet>
+                                                        #{exams.tprofLesson.tlesson.name}
+                                                </p:column>
+                                                <p:column>
+                                                    <f:facet name="header">نام استاد</f:facet>
+                                                        #{exams.tprofLesson.tprofessor.lastname}
+                                                </p:column>
+                                                <p:column>
+                                                    <f:facet name="header">ورودی دانشجو</f:facet>
+                                                        #{exams.tcollegian.name}
+                                                </p:column>
+                                                <p:column>
+                                                    <f:facet name="header">روز امتحان</f:facet>
+                                                        #{exams.examday}
+                                                </p:column>
+                                                <p:column>
+                                                    <f:facet name="header">ساعت امتحان</f:facet>
+                                                        #{exams.examtime}
+                                                </p:column>
+
+                                            </p:dataTable>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            مسیر آخرین فایل دانلود شده:
+                                        </td>
+                                        <td colspan="5" dir="ltr">
+                                            <p:outputLabel id="pathlable" value="#{weekScheduleControl.pathStr}"/>
+
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </h:form>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <!-- /.inner -->
+            </div>
+            <!-- /.outer -->
+        </div>
+        <!-- /#content -->
+        <div id="right" class="bg-light lter">
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert"> times;</button>
+                <strong>Warning!</strong> Best check yo self, you're not looking too good.
+            </div>
+            <!-- .well well-small -->
+            <div class="well well-small dark">
+                <ul class="list-unstyled">
+                    <li>Visitor <span class="inlinesparkline pull-right">1,4,4,7,5,9,10</span></li>
+                    <li>Online Visitor <span class="dynamicsparkline pull-right">Loading..</span></li>
+                    <li>Popularity <span class="dynamicbar pull-right">Loading..</span></li>
+                    <li>New Users <span class="inlinebar pull-right">1,3,4,5,3,5</span></li>
+                </ul>
+            </div>
+            <!-- /.well well-small -->
+            <!-- .well well-small -->
+            <div class="well well-small dark">
+                <button class="btn btn-block">Default</button>
+                <button class="btn btn-primary btn-block">Primary</button>
+                <button class="btn btn-info btn-block">Info</button>
+                <button class="btn btn-success btn-block">Success</button>
+                <button class="btn btn-danger btn-block">Danger</button>
+                <button class="btn btn-warning btn-block">Warning</button>
+                <button class="btn btn-inverse btn-block">Inverse</button>
+                <button class="btn btn-metis-1 btn-block">btn-metis-1</button>
+                <button class="btn btn-metis-2 btn-block">btn-metis-2</button>
+                <button class="btn btn-metis-3 btn-block">btn-metis-3</button>
+                <button class="btn btn-metis-4 btn-block">btn-metis-4</button>
+                <button class="btn btn-metis-5 btn-block">btn-metis-5</button>
+                <button class="btn btn-metis-6 btn-block">btn-metis-6</button>
+            </div>
+            <!-- /.well well-small -->
+            <!-- .well well-small -->
+            <div class="well well-small dark">
+                <span>Default</span><span class="pull-right"><small>20%</small></span>
+
+                <div class="progress xs">
+                    <div class="progress-bar progress-bar-info" style="width: 20%"></div>
+                </div>
+                <span>Success</span><span class="pull-right"><small>40%</small></span>
+
+                <div class="progress xs">
+                    <div class="progress-bar progress-bar-success" style="width: 40%"></div>
+                </div>
+                <span>warning</span><span class="pull-right"><small>60%</small></span>
+
+                <div class="progress xs">
+                    <div class="progress-bar progress-bar-warning" style="width: 60%"></div>
+                </div>
+                <span>Danger</span><span class="pull-right"><small>80%</small></span>
+
+                <div class="progress xs">
+                    <div class="progress-bar progress-bar-danger" style="width: 80%"></div>
+                </div>
+            </div>                   
+        </div>
+        <!-- /#right -->
+
+        <!-- /#wrap -->
+        <footer class="Footer bg-dark dker">
+
+        </footer>
+
+
+
+        <!--Bootstrap -->
+        <script src="assets/lib/bootstrap/js/bootstrap.js"></script>
+        <!-- MetisMenu -->
+        <script src="assets/lib/metismenu/metisMenu.js"></script>
+        <!-- Screenfull -->
+        <script src="assets/lib/screenfull/screenfull.js"></script>
+
+
+        <!-- Metis core scripts -->
+        <script src="assets/js/core.js"></script>
+        <!-- Metis demo scripts -->
+        <script src="assets/js/app.js"></script>
+        <script src="assets/js/chart.js"></script>
+
+
+        <script src="assets/js/style-switcher.js"></script>
+
+        <script>
+                                        function openCity(evt, cityName) {
+                                        var i, tabcontent, tablinks;
+                                                tabcontent = document.getElementsByClassName("tabcontent");
+                                                for (i = 0; i &lt; tabcontent.length; i++) {
+                                        tabcontent[i].style.display = "none";
+                                        }
+                                        tablinks = document.getElementsByClassName("tablinks");
+                                                for (i = 0; i &lt; tablinks.length; i++) {
+                                        tablinks[i].className = tablinks[i].className.replace(" active", "");
+                                        }
+                                        document.getElementById(cityName).style.display = "block";
+                                                evt.currentTarget.className += " active";
+                                        }
+
+                                // Get the element with id="defaultOpen" and click on it
+                                document.getElementById("defaultOpen").click();
+        </script>
+
+
+    </h:body>
+</html>

@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>اضافه کردن برنامه جدید</title>
+        <link rel="stylesheet" type="text/css" href="resources/style/elements.css" />
+    </h:head>
+    <h:body dir="rtl">
+        <h:form>
+            <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" ></p:ajaxStatus>
+            <p:dialog id="statusDialog" widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage name="/images/ajax-loader.gif" />
+            </p:dialog>
+
+            <p:tabView dir="rtl">
+                <p:tab title="مشخصات برنامه کلاسی" titleStyle="font-family: b yekan;font-size:12px;">
+                    <p:growl id="growl" showDetail="true" />
+                    <p:outputPanel style="height: 500px;overflow: auto;display: block;">
+                        <table>
+                            <tr>
+                                <td style="font-family: b roya; font-size: 14px;" colspan="2">
+                                    استاد: 
+                                </td>
+
+                                <td style="font-family: b roya; font-size: 14px;" colspan="3">
+                                    <h:selectOneMenu value="#{weekScheduleControl.proffessorID}"  style="font-family: b roya;    font-size: 14px;" >
+                                        <p:ajax listener="#{weekScheduleControl.onProfessorChange}" update="lesson" />
+                                        <f:selectItems value="#{professorControl.allProfessorList}"/>
+                                    </h:selectOneMenu>
+                                </td>
+                                <td colspan="2">
+
+                                </td>
+
+                                <td style="font-family: b roya; font-size: 14px;" colspan="2">
+                                    نام درس: 
+                                </td>
+
+                                <td style="font-family: b roya; font-size: 14px;" colspan="3">
+                                    <h:selectOneMenu id="lesson" value="#{weekScheduleControl.lessonID}"  style="font-family: b roya;    font-size: 14px;" >
+                                        <f:selectItems value="#{weekScheduleControl.lessons}"/>
+                                    </h:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-family: b roya; font-size: 14px;" colspan="2">
+                                    نام گروه دانشجو: 
+                                </td>
+
+                                <td style="font-family: b roya; font-size: 14px;" colspan="2">
+                                    <h:selectOneMenu value="#{weekScheduleControl.collegianID}"  style="font-family: b roya;    font-size: 14px;" >
+                                        <p:ajax listener="#{weekScheduleControl.onCollegianChange()}" update="schtable examsdatatable"/>
+                                        <f:selectItems value="#{collegianControl.allCollegianList}"/>
+                                    </h:selectOneMenu>
+                                </td>
+                                <td style="font-family: b roya; font-size: 14px;" >
+                                    <h:selectOneMenu value="#{weekScheduleControl.gpnum}" id="gpnumsel" style="font-family: b roya;    font-size: 14px;" >
+                                        <f:selectItem itemValue="1" itemLabel="گروه اول"/>
+                                        <f:selectItem itemValue="2" itemLabel="گروه دوم"/>
+                                    </h:selectOneMenu>
+                                </td>
+                                <td colspan="2">
+
+                                </td>
+
+                                <td style="font-family: b roya; font-size: 14px;" colspan="2">
+                                    ساعت: 
+                                </td>
+
+                                <td style="font-family: b roya; font-size: 14px;" colspan="3">
+                                    <h:selectOneMenu value="#{weekScheduleControl.weekSchedule.timeslotnum}"  style="font-family: b roya;    font-size: 14px;" >
+                                        <f:selectItem itemValue="8" itemLabel="8-10"/>
+                                        <f:selectItem itemValue="10" itemLabel="10-12"/>
+                                        <f:selectItem itemValue="13" itemLabel="13-15"/>
+                                        <f:selectItem itemValue="15" itemLabel="15-17"/>
+                                        <f:selectItem itemValue="17" itemLabel="17-19"/>
+                                    </h:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-family: b roya; font-size: 14px;" colspan="2">
+                                    روز: 
+                                </td>
+
+                                <td style="font-family: b roya; font-size: 14px;" colspan="3">
+                                    <h:selectOneMenu value="#{weekScheduleControl.weekSchedule.daynum}"  style="font-family: b roya;    font-size: 14px;" >
+                                        <f:selectItem itemValue="0" itemLabel="شنبه"/>
+                                        <f:selectItem itemValue="1" itemLabel="یکشنبه"/>
+                                        <f:selectItem itemValue="2" itemLabel="دوشنبه"/>
+                                        <f:selectItem itemValue="3" itemLabel="سه شنبه"/>
+                                        <f:selectItem itemValue="4" itemLabel="چهارشنبه"/>
+                                        <f:selectItem itemValue="5" itemLabel="پنجشنبه"/>
+                                    </h:selectOneMenu>
+                                </td>
+
+                                <td colspan="2">
+
+                                </td>
+                                <td style="font-family: b roya; font-size: 14px;" colspan="2">
+                                    نام کلاس: 
+                                </td>
+
+                                <td style="font-family: b roya; font-size: 14px;" colspan="3">
+                                    <h:selectOneMenu value="#{weekScheduleControl.roomID}"  style="font-family: b roya;    font-size: 14px;" >
+                                        <f:selectItems value="#{roomControl.allRoomList}"/>
+                                    </h:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 14px;" colspan="2">
+                                    هفته:
+                                </td>
+                                <td style="font-size: 14px;" colspan="4">
+                                    <h:selectOneRadio id="console" value="#{weekScheduleControl.weekSchedule.weektype}">
+                                        <f:selectItem itemLabel="زوج" itemValue="E" />
+                                        <f:selectItem itemLabel="فرد" itemValue="O" />
+                                        <f:selectItem itemLabel="ثابت" itemValue="B" />
+                                        <p:ajax update="examday examtime" event="valueChange" />
+                                    </h:selectOneRadio>
+                                </td>
+                                <td style="font-size: 14px;" colspan="3">
+                                    مشترک:
+                                </td>
+                                <td style="font-size: 14px;" colspan="3">
+                                    <p:selectBooleanCheckbox disabled="#{loginGUControl.userObj.roleid!=2}" id="commonbool" value="#{weekScheduleControl.common}"/>
+                                </td>
+                            </tr>
+                            <tr >
+                                <td title="امتحان" style="border: 1px solid #000000;" colspan="20">
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="font-size: 14px;" colspan="2">
+                                    تاریخ امتحان :
+                                </td>
+                                <td style="font-size: 14px;" colspan="3">
+                                    <h:selectOneMenu value="#{weekScheduleControl.weekSchedule.examday}" 
+                                                     disabled="#{weekScheduleControl.weekSchedule.weektype=='E'  or weekScheduleControl.weekSchedule.weektype=='O'}"
+                                                     id="examday"  style="font-family: b roya;    font-size: 14px;" >
+                                        <f:selectItem itemValue="1" itemLabel="روز اول"/>
+                                        <f:selectItem itemValue="2" itemLabel="روز دوم"/>
+                                        <f:selectItem itemValue="3" itemLabel="روز سوم"/>
+                                        <f:selectItem itemValue="4" itemLabel="روز چهارم"/>
+                                        <f:selectItem itemValue="5" itemLabel="روز پنجم"/>
+                                        <f:selectItem itemValue="6" itemLabel="روز ششم"/>
+                                        <f:selectItem itemValue="7" itemLabel="روز هفتم"/>
+                                        <f:selectItem itemValue="8" itemLabel="روز هشتم"/>
+                                        <f:selectItem itemValue="9" itemLabel="روز نهم"/>
+                                        <f:selectItem itemValue="10" itemLabel="روز دهم"/>
+                                        <f:selectItem itemValue="0" itemLabel="ندارد"/>
+                                        <p:ajax update="examtime" event="valueChange" />
+                                    </h:selectOneMenu>
+                                </td>
+                                <td colspan="2">
+
+                                </td>
+
+                                <td style="font-size: 14px;" colspan="2">
+                                    ساعت امتحان :
+                                </td>
+                                <td style="font-size: 14px;" colspan="3">
+                                    <h:selectOneMenu 
+                                        disabled="#{weekScheduleControl.weekSchedule.weektype=='E'  or weekScheduleControl.weekSchedule.weektype=='O' or weekScheduleControl.weekSchedule.examday==0}" 
+                                        id="examtime" value="#{weekScheduleControl.weekSchedule.examtime}"  style="font-family: b roya;    font-size: 14px;" >
+                                        <f:selectItem itemValue="8" itemLabel="8-10"/>
+                                        <f:selectItem itemValue="10" itemLabel="10-12"/>
+                                        <f:selectItem itemValue="13" itemLabel="13-15"/>
+                                        <f:selectItem itemValue="15" itemLabel="15-17"/>
+                                    </h:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr >
+                                <td title="امتحان" style="border: 1px solid #000000;" colspan="20">
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">
+                                    <p:commandButton value="ثبت" action="#{weekScheduleControl.insertWeekSchedule()}" update=":#{p:component('schtable')} :#{p:component('commonbool')} gpnumsel  growl examsdatatable"/>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="20">
+                                    <h:panelGrid  columns="6" border="1" style="border-color: #000000; font-size: 12px!important;" id="schtable">
+                                        <c:forEach var="row" items="#{weekScheduleControl.schedule}">
+                                            <c:forEach var="value" items="#{row}">
+                                                <h:outputText value="#{value}" style="white-space: pre-wrap"/>
+                                            </c:forEach>
+                                        </c:forEach>
+                                    </h:panelGrid>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="20">
+
+                                    <p:dataTable id="examsdatatable" filterEvent="enter" 
+                                                 value="#{weekScheduleControl.examsList}" var="exams" dir="rtl" 
+                                                 emptyMessage="موردی با این مشخصات یافت نشد."
+                                                 widgetVar="examdatatable" scrollable="true" scrollHeight="400">
+                                        <p:column>
+                                            <f:facet name="header">نام درس</f:facet>
+                                                #{exams.tprofLesson.tlesson.name}
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">نام استاد</f:facet>
+                                                #{exams.tprofLesson.tprofessor.lastname}
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">روز امتحان</f:facet>
+                                                #{exams.examday}
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">ساعت امتحان</f:facet>
+                                                #{exams.examtime}
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                </td>
+                            </tr>
+
+
+                        </table>
+                    </p:outputPanel>
+                </p:tab>
+
+                <p:tab  title="کلاس های اختصاص داده شده" titleStyle="font-family: b yekan;font-size:12px;">
+
+                    <table style="border-color: transparent">
+
+                        <tr>
+                            <td colspan="20">
+                                <h:panelGrid columns="6" id="schtable2" border="1">
+                                    <c:forEach var="row" items="#{weekScheduleControl.assignedRoom}">
+                                        <c:forEach var="value" items="#{row}">
+                                            #{value}
+                                        </c:forEach>
+                                    </c:forEach>
+                                </h:panelGrid>
+
+                            </td>
+                        </tr>
+                    </table>
+                </p:tab>
+
+                <p:tab  title="نمایش برنامه" titleStyle="font-family: b yekan;font-size:12px;">
+                    <table style="border-color: transparent">
+                        <tr>
+                            <td>
+                                جستجو بر اساس:
+                            </td>
+                            <td colspan="10">
+
+                                <p:selectOneRadio id="console1" value="#{weekScheduleControl.typeOfScheduleList}">
+                                    <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable1')} :#{p:component('byprof')} :#{p:component('byroom')} :#{p:component('bycollegian')}"/>
+                                    <f:selectItem itemLabel="استاد" itemValue="P" />
+                                    <f:selectItem itemLabel="کلاس" itemValue="R" />
+                                    <f:selectItem itemLabel="دانشجو" itemValue="C" />
+                                </p:selectOneRadio>
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                استاد:  
+                            </td>
+                            <td>
+
+                                <h:selectOneMenu id="byprof" value="#{weekScheduleControl.searchProfessorID}" 
+                                                 disabled="#{weekScheduleControl.typeOfScheduleList=='R' or weekScheduleControl.typeOfScheduleList=='C'}" 
+                                                 style="font-family: b roya;    font-size: 14px;" >
+                                    <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable1')}" />
+                                    <f:selectItems value="#{professorControl.allProfessorList}"/>
+                                </h:selectOneMenu>                                                                                        
+                            </td>
+
+                            <td>
+                                کلاس:  
+                            </td>
+                            <td>
+
+                                <h:selectOneMenu id="byroom" value="#{weekScheduleControl.searchRoomID}" 
+                                                 disabled="#{weekScheduleControl.typeOfScheduleList=='P' or weekScheduleControl.typeOfScheduleList=='C'}" 
+                                                 style="font-family: b roya;    font-size: 14px;" >
+                                    <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable1')}" />
+                                    <f:selectItems value="#{roomControl.allRoomList}"/>
+                                </h:selectOneMenu>                                                                                        
+                            </td>
+
+                            <td>
+                                دانشجو:  
+                            </td>
+                            <td>
+
+                                <h:selectOneMenu id="bycollegian" value="#{weekScheduleControl.searchColegianID}" disabled="#{weekScheduleControl.typeOfScheduleList=='P' or weekScheduleControl.typeOfScheduleList=='R'}" 
+                                                 style="font-family: b roya;    font-size: 14px;" >
+                                    <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable1')}" />
+                                    <f:selectItems value="#{collegianControl.allCollegianList}"/>
+                                </h:selectOneMenu>                                                                                        
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="20">
+                                <h:panelGrid columns="6" id="schtable1" border="1">
+                                    <c:forEach var="row" items="#{weekScheduleControl.schedule}">
+                                        <c:forEach var="value" items="#{row}">
+                                            #{value}
+                                        </c:forEach>
+                                    </c:forEach>
+                                </h:panelGrid>
+
+                            </td>
+                        </tr>
+                    </table>
+                </p:tab>
+            </p:tabView>
+        </h:form>
+    </h:body>
+</html>
+

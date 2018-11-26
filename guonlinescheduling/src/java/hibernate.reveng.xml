@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="scheduleDB" match-schema="dbo"/>
+  <table-filter match-name="teducationgroup"/>
+  <table-filter match-name="troom"/>
+  <table-filter match-name="tcollegian"/>
+  <table-filter match-name="troomGroup"/>
+  <table-filter match-name="tprofLesson"/>
+  <table-filter match-name="tweekschedule"/>
+  <table-filter match-name="tprofessor"/>
+  <table-filter match-name="tlesson"/>
+</hibernate-reverse-engineering>

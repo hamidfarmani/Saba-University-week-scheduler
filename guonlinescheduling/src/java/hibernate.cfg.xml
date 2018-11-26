@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+        <property name="hibernate.connection.url">jdbc:sqlserver://127.0.0.1\DESKTOP-NKV5COQ:1433;databaseName=scheduleDB</property>
+        <property name="hibernate.connection.username">hamid</property>
+        <property name="hibernate.connection.password">123456</property>
+    
+<!--        <property name="hibernate.connection.url">jdbc:sqlserver://127.0.0.1\WIN-EO74FT5NRKU\GUMSSQLSERVER:1433;databaseName=scheduleDB</property>
+        <property name="hibernate.connection.url">jdbc:sqlserver://172.16.20.16\WIN-EO74FT5NRKU\GUMSSQLSERVER:1433;databaseName=scheduleDB</property>
+        <property name="hibernate.connection.username">golestan0</property>
+        <property name="hibernate.connection.password">whattodo</property>-->
+    
+        <property name="hibernate.current_session_context_class">thread</property>
+        <mapping class="entity.Troom"/>
+        <mapping class="entity.Tweekschedule"/>
+        <mapping class="entity.Tcollegian"/>
+        <mapping class="entity.Tprofessor"/>
+        <mapping class="entity.Teducationgroup"/>
+        <mapping class="entity.TprofLesson"/>
+        <mapping class="entity.TroomGroup"/>
+        <mapping class="entity.Tlesson"/>
+    </session-factory>
+</hibernate-configuration>

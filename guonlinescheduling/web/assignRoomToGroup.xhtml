@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>تخصیص کلاس به گروه</title>
+        <link rel="stylesheet" type="text/css" href="resources/style/elements.css" />
+    </h:head>
+    <h:body dir="rtl">
+        <h:form>
+            <p:growl id="growl" showDetail="true" life="300"/>
+            <table>
+                <tr>
+                    <td>
+                        نام کلاس: 
+                    </td>
+
+                    <td>
+                        <h:selectOneMenu value="#{roomControl.roomID}" >
+                            <f:selectItems value="#{roomControl.allRoomList}"/>
+                        </h:selectOneMenu>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        روز: 
+                    </td>
+
+                    <td>
+                        <h:selectOneRadio value="#{roomControl.roomGroup.daynum}" >
+                            <f:selectItem itemValue="0" itemLabel="شنبه"/>
+                            <f:selectItem itemValue="1" itemLabel="یکشنبه"/>
+                            <f:selectItem itemValue="2" itemLabel="دوشنبه"/>
+                            <f:selectItem itemValue="3" itemLabel="سه شنبه"/>
+                            <f:selectItem itemValue="4" itemLabel="چهارشنبه"/>
+                            <f:selectItem itemValue="5" itemLabel="پنجشنبه"/>
+                        </h:selectOneRadio>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        ساعت: 
+                    </td>
+
+                    <td>
+                        <h:selectOneRadio value="#{roomControl.roomGroup.timeslot}" >
+                            <f:selectItem itemValue="8" itemLabel="8-10"/>
+                            <f:selectItem itemValue="10" itemLabel="10-12"/>
+                            <f:selectItem itemValue="13" itemLabel="13-15"/>
+                            <f:selectItem itemValue="15" itemLabel="15-17"/>
+                            <f:selectItem itemValue="17" itemLabel="17-19"/>
+                        </h:selectOneRadio>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        هفته:
+                    </td>
+                    <td>
+                        <h:selectOneRadio id="console" value="#{roomControl.roomGroup.type}">
+                            <f:selectItem itemLabel="ثابت" itemValue="B"  />
+                            <f:selectItem itemLabel="زوج" itemValue="E" itemDisabled="true" />
+                            <f:selectItem itemLabel="فرد" itemValue="O" itemDisabled="true"/>
+                            
+                        </h:selectOneRadio>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        نام گروه آموزشی: 
+                    </td>
+
+                    <td>
+                        <h:selectOneMenu value="#{roomControl.eduID}" >
+                            <f:selectItems value="#{educationGroupControl.allEducationGroupList}"/>
+                        </h:selectOneMenu>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <p:commandButton  value="ثبت" action="#{roomControl.assignRoom()}" update="growl"/>
+                    </td>
+                </tr>
+
+            </table>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>ویرایش اطلاعات استاد</title>
+        <link rel="stylesheet" type="text/css" href="resources/style/elements.css" />
+    </h:head>
+    <h:body dir="rtl">
+        <h:form>
+            <p:growl id="growl" showDetail="true"/>
+            <table>
+                <tr>
+                    <td>
+                        نام:
+                    </td>
+                    <td>
+                        <h:inputText class="InputField"  value="#{professorControl.professor.firstname}"/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        نام خانوادگی: 
+                    </td>
+                    <td>
+                        <h:inputText class="InputField"  value="#{professorControl.professor.lastname}"/><br/>
+                    </td>
+                </tr>
+                <c:if test="#{loginGUControl.userObj.roleid==2}">
+                    <tr>
+                        <td>
+                            نام گروه آموزشی: 
+                        </td>
+
+                        <td>
+                            <p:selectOneMenu value="#{professorControl.educationGroupID}" >
+                                <f:selectItems value="#{educationGroupControl.allEducationGroupList}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                </c:if>
+                <tr>
+                    <td>
+                        نوع: 
+                    </td>
+                    <td>
+                        <p:selectOneMenu value="#{professorControl.professor.roleid}" >
+                            <f:selectItem itemValue="0" itemLabel="استاد"/>
+                            <f:selectItem itemDisabled="#{loginGUControl.userObj.roleid==0 or loginGUControl.userObj.roleid==1}" itemValue="1" itemLabel="مدیر گروه"/>
+                            <f:selectItem itemDisabled="#{loginGUControl.userObj.roleid==0 or loginGUControl.userObj.roleid==1}" itemValue="2" itemLabel="معاون"/>
+                            <p:ajax event="change" update="usernameinputtext passcheckinputtext passwordinputtext"/>
+                        </p:selectOneMenu>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        نام کاربری:
+                    </td>
+                    <td>
+                        <h:inputText disabled="#{professorControl.professor.roleid == 0}" id="usernameinputtext" class="InputField" value="#{professorControl.professor.username}"/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        گذرواژه: 
+
+                    </td>
+                    <td>
+                        <h:inputSecret disabled="#{professorControl.professor.roleid == 0}" id="passwordinputtext" class="InputField" value="#{professorControl.professor.password}"/><br/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        تکرار گذرواژه: 
+                    </td>
+                    <td>
+                        <h:inputSecret disabled="#{professorControl.professor.roleid == 0}" id="passcheckinputtext" class="InputField" value="#{professorControl.passCheck}"/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <p:commandButton value="ویرایش" action="#{professorControl.update()}" update="growl"/>
+                    </td>
+                </tr>
+
+            </table>
+        </h:form>
+    </h:body>
+</html>
+

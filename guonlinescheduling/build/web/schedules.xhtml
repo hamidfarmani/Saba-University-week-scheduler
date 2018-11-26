@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>برنامه</title>
+        <link rel="stylesheet" type="text/css" href="resources/style/elements.css" />
+    </h:head>
+    <h:body dir="rtl">
+        <h:form>
+            <table style="border-color: transparent">
+                <tr>
+                    <td>
+                        جستجو بر اساس:
+                    </td>
+                    <td colspan="10">
+
+                        <p:selectOneRadio id="console" value="#{weekScheduleControl.typeOfScheduleList}">
+                            <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable')} :#{p:component('byprof')} :#{p:component('byroom')} :#{p:component('bycollegian')}"/>
+                            <f:selectItem itemLabel="استاد" itemValue="P" />
+                            <f:selectItem itemLabel="کلاس" itemValue="R" />
+                            <f:selectItem itemLabel="دانشجو" itemValue="C" />
+                        </p:selectOneRadio>
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <td>
+                        استاد:  
+                    </td>
+                    <td>
+
+                        <h:selectOneMenu id="byprof" value="#{weekScheduleControl.proffessorID}" disabled="#{weekScheduleControl.typeOfScheduleList=='R' or weekScheduleControl.typeOfScheduleList=='C'}" >
+                            <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable')}" />
+                            <f:selectItems value="#{professorControl.allProfessorList}"/>
+                        </h:selectOneMenu>                                                                                        
+                    </td>
+
+                    <td>
+                        کلاس:  
+                    </td>
+                    <td>
+
+                        <h:selectOneMenu id="byroom" value="#{weekScheduleControl.roomID}" disabled="#{weekScheduleControl.typeOfScheduleList=='P' or weekScheduleControl.typeOfScheduleList=='C'}" >
+                            <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable')}" />
+                            <f:selectItems value="#{roomControl.allRoomList}"/>
+                        </h:selectOneMenu>                                                                                        
+                    </td>
+
+                    <td>
+                        دانشجو:  
+                    </td>
+                    <td>
+
+                        <h:selectOneMenu id="bycollegian" value="#{weekScheduleControl.collegianID}" disabled="#{weekScheduleControl.typeOfScheduleList=='P' or weekScheduleControl.typeOfScheduleList=='R'}" >
+                            <p:ajax listener="#{weekScheduleControl.onTypeChange()}" update=":#{p:component('schtable')}" />
+                            <f:selectItems value="#{collegianControl.allCollegianList}"/>
+                        </h:selectOneMenu>                                                                                        
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="20">
+                        <h:panelGrid columns="6" id="schtable">
+                            <c:forEach var="row" items="#{weekScheduleControl.schedule}">
+                                <c:forEach var="value" items="#{row}">
+                                    #{value}
+                                </c:forEach>
+                            </c:forEach>
+                        </h:panelGrid>
+
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+    </h:body>
+</html>
+
